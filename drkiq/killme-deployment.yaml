@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: po
+spec:
+      containers:
+      -  image: ishaker/rails
+         name: quik
+         ports:
+         - containerPort: 8000
+      -  image: ishaker/rails
+         name: sdik
+         command: ["config/sidekiq.yml" , "bundle exec sidekiq -C"]
+      imagePullSecrets:
+        - name: dsecret
