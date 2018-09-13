@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: postgres
+  labels:
+    db: postgres
+spec:
+  strategy:
+    type: Recreate
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        db: postgres
+    spec:
+      containers:
+      - image: postgres:9.4.5
+        name: postgres
+        args:
+          - bundle
+          - install
+        env:
+          # $ kubectl create secret generic mysql-pass --from-file=password.txt
+          # make sure password.txt does not have a trailing newline
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postg-secret.txt
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postg-secret.txt
+        ports:
+        - containerPort: 5432
+          name: postgres
+        volumeMounts:
+        - name: drkiq-postgres
+          mountPath: /var/lib/postgresql/data
+      restartPolicy: Always
+      volumes:
+      - name:  drkiq-postgres
+        persistentVolumeClaim:
+          claimName: drkiq-postgres

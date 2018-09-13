@@ -1,0 +1,64 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: drkiq
+  labels:
+    app: drkiq
+spec:
+  replicas: 2
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: drkiq
+    spec:
+      containers:
+      - image: ishaker/rails:v1
+        imagePullPolicy:
+        name: drkiq
+        env:
+          # $ kubectl create secret generic mysql-pass --from-file=password.txt
+          # make sure password.txt does not have a trailing newline
+        - name: SECRET_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: envsecret
+              key: env-var.txt
+        - name: WORKER_PROCESSES
+          valueFrom:
+            secretKeyRef:
+              name: envsecret
+              key: env-var.txt
+        - name: LISTEN_ON
+          valueFrom:
+            secretKeyRef:
+              name: envsecret
+              key: env-var.txt
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: envsecret
+              key: env-var.txt
+        - name: CACHE_URL
+          valueFrom:
+            secretKeyRef:
+              name: envsecret
+              key: env-var.txt
+        - name: JOB_WORKER_URL
+          valueFrom:
+            secretKeyRef:
+              name: envsecret 
+              key: env-var.txt
+        ports:
+        - containerPort: 8000
+        resources: {}
+        volumeMounts:
+        - mountPath: /drkiq
+          name: drkiq-claim1
+      restartPolicy: Always
+      volumes:
+      - name: drkiq-claim1
+        persistentVolumeClaim:
+          claimName: drkiq-claim1
+status: {}

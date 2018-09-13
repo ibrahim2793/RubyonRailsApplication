@@ -1,28 +1,34 @@
-== README
+steps to deploy and run the app:
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* pull the image from : 
 
-Things you may want to cover:
+* open drkiq file then
 
-* Ruby version
+* open terminal and install minikube version: v0.28.2 
 
-* System dependencies
+* install kubectl 
 
-* Configuration
+* after installing the above files start minikube by typing [ start minikube ] at terminal
 
-* Database creation
+* after starting we will start to create the volumes 
 
-* Database initialization
+* open the terminal [ kubectl create -f drkiq-postgres.yaml ,kubectl create -f drkiq-redis.yaml,kubectl create -f drkiq-volume.yaml ]
 
-* How to run the test suite
+* create secret to pass the env variables and db user,password 
 
-* Services (job queues, cache servers, search engines, etc.)
+* open terminal create secret from postg.secret.txt file [  kubectl create secret generic postgres-secret --from-file=postg-secret.txt ]
 
-* Deployment instructions
+* create secret from env-var.text [ kubectl create secret generic envsecret --from-file=env-var.txt ]
 
-* ...
+* create deployment of database and app [ kubectl create -f postgres-deployment.yaml , kubectl create -f redis-deployment.yaml , kubectl create -f sidekiq-deployment.yaml , kubectl create -f drkiq-deployment.yaml ]
+
+* create service for the last deployments [ kubectl create -f postgres-service.yaml , kubectl create -f redis-service.yaml , kubectl create -f sidekiq-deployment.yaml ]
+
+* then expose the drkiq deployment by creating service by open terminal [ kubectl get deployments,  kubectl expose deployment $name-of-deployment --type=NodePort ]
+
+* then we can access it by open the terminal [ kubectl get service , curl $(minikube service name-of-service --url)
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+ 
+
+

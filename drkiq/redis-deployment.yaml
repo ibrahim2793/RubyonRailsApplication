@@ -2,12 +2,16 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: redis
+  labels:
+    db: redis
 spec:
+  strategy:
+    type: Recreate
   replicas: 2
   template:
     metadata:
       labels:
-        app: redis
+        db: redis
     spec:
       containers:
       - image: redis:3.0.5
@@ -23,4 +27,3 @@ spec:
       - name: drkiq-redis
         persistentVolumeClaim:
           claimName: drkiq-redis
-status: {}
