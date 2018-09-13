@@ -10,6 +10,8 @@ steps to deploy and run the app:
 
 * after installing the above files start minikube by typing [ start minikube ] at terminal
 
+* we will add our docker image to the minikube by open the terminal [ eval $(minikube docker-env) , docker build -t rails:v3.]
+
 * after starting we will start to create the volumes 
 
 * open the terminal [ kubectl create -f drkiq-postgres.yaml ,kubectl create -f drkiq-redis.yaml,kubectl create -f drkiq-volume.yaml ]

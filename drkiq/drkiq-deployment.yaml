@@ -14,7 +14,7 @@ spec:
         app: drkiq
     spec:
       containers:
-      - image: ishaker/rails:v1
+      - image: rails:v3
         imagePullPolicy:
         name: drkiq
         env:
@@ -48,7 +48,7 @@ spec:
         - name: JOB_WORKER_URL
           valueFrom:
             secretKeyRef:
-              name: envsecret 
+              name: envsecret
               key: env-var.txt
         ports:
         - containerPort: 8000
