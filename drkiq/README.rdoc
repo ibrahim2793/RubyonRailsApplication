@@ -1,6 +1,6 @@
 steps to deploy and run the app:
 
-* pull the image from : https://github.com/ibrahim2793/RubyonRailsApplication.git
+* pull the repo from : https://github.com/ibrahim2793/RubyonRailsApplication.git
 
 * open drkiq file then
 
